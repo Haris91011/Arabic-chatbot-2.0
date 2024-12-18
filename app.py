@@ -7,7 +7,7 @@ import uuid
 BASE_URL = "https://testing.murshed.marahel.sa/"  #
 
 # Hardcoded chatbot ID
-CHATBOT_ID = "550e8400-e29b-41d4-a716-446655440000"
+CHATBOT_ID = "550e8400-e29b-41d4-a716-446655440003"
 
 def main():
     st.title("MARAHEL QA ChatBot")
@@ -42,6 +42,12 @@ def main():
             type=['pdf', 'docx', 'txt', 'doc']
         )
         
+        # Database selection
+        vectorstore_database = st.selectbox(
+            "Select Vector Database",
+            ["qdrant", "pgvector"]
+        )
+        
         # Model selection
         embeddings_model = st.selectbox(
             "Select Embeddings Model",
@@ -70,7 +76,8 @@ def main():
                         "chatbot_id": CHATBOT_ID,
                         "chunk_size": str(chunk_size),
                         "chunk_overlap": str(chunk_overlap),
-                        "embeddings_model": embeddings_model
+                        "embeddings_model": embeddings_model,
+                        "vectorstore_name": vectorstore_database
                     }
                     
                     response = requests.post(
